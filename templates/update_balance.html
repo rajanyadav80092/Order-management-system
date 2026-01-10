@@ -1,0 +1,12 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="glash-div">
+<form action="/api/v1/update_balance/{{balance.id}}" method="post">
+    <input class="glash-input" type="number" name="account_num" values="{{balance.account_num}}" placeholder="account_num" required><br><br>
+    <input class="glash-input" type="password" name="password" values="{{balance.password}}" placeholder="old password" required><br><br>
+    <input class="glash-input" type="text" name="name" values="{{balance.name}}" placeholder="balance" required><br><br>
+    <button class="glash-btn" type="submit">Update-bank</button>
+</form>
+
+</div>
+{% endblock %}

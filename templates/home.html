@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static' ,filename='css/style.css' )}}" >
+</head>
+<body>
+    <div class="nav-class">
+        <nav >
+            <a href="/">Home</a>
+            {% if session.get("user_id") %}
+            <a href="/addorder">Add-order</a>
+            <a href="/api/v1/logout">Logout</a>
+            <a href="/balance">UPI</a>
+            <a href="/api/v1/settings">Setting</a>
+            <a href="{{url_for('v2_orders.dashboard')}}">Dashboard</a>
+
+            {% else %}
+                <a href="/signin">Sign-in</a>
+                <a href="/login">Login</a>
+            {% endif %}
+            </nav>
+    </div>
+    <div class="page-wrapper">
+        {% with messages=get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category,msg in messages %}
+              <div class="flash flash_{{category}}" >
+                {{msg}}
+              </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+    </div>
+    {% block content %}{% endblock %}
+</body>
+</html>

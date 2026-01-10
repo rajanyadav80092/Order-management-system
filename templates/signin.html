@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="glash-div">
+<form action="/api/v1/signin" method="post">
+<input class="glash-input" type="text" name="name" placeholder="Enter your name" required><br><br>
+<input class="glash-input" type="email" name="email" placeholder="Enter your email" required ><br><br>
+<input class="glash-input" type="number" name="mobile" placeholder="Enter your mobile" required><br><br>
+<input class="glash-input" type="password" name="password" placeholder="Enter your password" required><br><br>
+<button class="glash-btn" type="submit">Sign-in</button><br><br><br><br>
+</form>
+<a href="/login"><button class="glash-btn">Login</button></a>
+</div>
+{% endblock %}

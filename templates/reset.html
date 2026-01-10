@@ -1,0 +1,8 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="glash-div">
+    <form action="/api/v1/change-password" method="post">
+        <input class="glash-input" type="password" name="new-pass" placeholder="Enter new password" required ><br><br>
+        <button type="submit" class="glash-btn">Submit</button><br>
+</div>
+{% endblock %}

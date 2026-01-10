@@ -1,0 +1,10 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="glash-div">
+<form action="/api/v1/add-order" method="post">
+    <input class="glash-input" type="number" name="amount" placeholder="Enter your amount"><br>
+    <input class="glash-input" type="text" name="product" placeholder="enter your product"><br><br>
+    <button class="glash-btn" type="submit">Credit</button>
+</form>
+</div>
+{% endblock %}

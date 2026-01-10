@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+{% block content %}
+<h2>Settings<h2>
+<div class="settingdiv">
+    <ul>
+    <a class="setting" href="{{url_for('v1_update.update_user',id=user.id)}}">Update-v1-User</a><br>
+    <a class="setting" href="{{url_for('v1_update.update_bank',id=user.id)}}">Update-v1-Bal</a><br>
+    <a class="setting"  href="{{url_for('v2_update.update_user',id=user.id)}}">Update-v2_User</a><br>
+    <a class="setting" href="{{url_for('v2_update.update_balance',id=user.id)}}">Update-v2-balance</a><br>
+    <a class="setting" href="{{url_for('v2_auth.logout')}}">Logout</a><br>
+    <a class="setting" href="{{url_for('v2_orders.delete_user',id=user.id)}}">Delete-User</a>
+    </ul>
+</div>
+{% endblock %}

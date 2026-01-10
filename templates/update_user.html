@@ -1,0 +1,12 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="glash-div">
+<form action="/api/v1/update_user/{{user.id}}" method="post">
+    <input class="glash-input" type="name" name="name" values="{{user.name}}" placeholder="name" required><br><br>
+    <input class="glash-input" type="password" name="password" values="{{user.password}}" placeholder="password"><br><br>
+    <input class="glash-input" type="number" name="mobile" values="{{user.mobile}}"required><br><br>
+    <input class="glash-input" type="email" name="email" values="{{user.email}}" required><br><br>
+    <button class="glash-btn" >Update-user</button>
+</form>
+</div>
+{% endblock %}

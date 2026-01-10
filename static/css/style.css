@@ -1,0 +1,106 @@
+body{
+    height:100vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    backdrop-filter:blur(4px);
+    background:url("/static/bg.jpg")no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.nav-class{
+    height:100px;
+    width:100vw;
+    background: black;
+    color:white;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-class a{
+    text-decoration: none;
+    font-size: 20px;
+    color:white;
+
+}
+
+.glash-div{
+    width:300px;
+    position: absolute;
+    top:150px;
+    
+}
+.glash-input{
+    width:100%;
+    margin:10px 0px 20px 0px;
+    padding:14px;
+    border-radius: 13px;
+    border:none;
+    outline: none;
+    background:rgb(236, 237, 238);
+    font-size: 18px;
+    color:rgb(231, 67, 13);
+
+}
+
+.glash-btn{
+    margin:10px 0px 30px 0px;
+    padding:14px;
+    border:none;
+    border-radius: 13px;
+    background: white;
+    color:black;
+    position: absolute;
+    left:125px;
+    
+       
+}
+.glash-btn:hover{
+    background: rgb(64, 47, 47);
+    color:aliceblue;
+}
+
+.flash{
+    color:white;
+    position: absolute;
+    top:250px;
+    left:100px;
+}
+
+h2{
+    position: absolute;
+    top:45px;
+    right:300px;
+    color:white;
+}
+
+h2:hover{
+    color:aquamarine;
+}
+
+.settingdiv{
+    background:rgb(239, 235, 235);
+    height: 200px;
+    width:250px;
+    position: absolute;
+    top: 60px;
+    border-radius: 13px;
+    border:none;
+    
+
+}
+.setting{
+    font-size: 20px;
+    text-decoration: none;
+    color:black;
+
+
+}
+.setting:hover{
+    color: rgb(12, 234, 160);
+}
