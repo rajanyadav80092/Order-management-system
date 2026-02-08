@@ -148,7 +148,7 @@ def alluser():
     if "user_id" not in session:
         return redirect("/login")
     time.sleep(3)
-    userall=User.query.all()
+    userall=User.query.limit(30).offset(0).all()
     row=[]
     for u in userall:
         row.append({
@@ -162,7 +162,6 @@ def alluser():
     return row
 @v1_orders.route("/alluse")
 def userall():
-    
     cache_key="product"
     cache_data=client_redis.get(cache_key)
     if cache_data:
@@ -171,7 +170,7 @@ def userall():
             "dataset":json.loads(cache_data)
         })
     product=alluser()
-    client_redis.setex(cache_key,6,json.dumps(product))
+    client_redis.setex(cache_key,50,json.dumps(product))
     return jsonify({
         "source":"database",
         "dataset":product
@@ -181,7 +180,7 @@ def userall():
 def allorder():
     if "user_id" not in session:
         return redirect("/login")
-    ordd=Order.query.all()
+    ordd=Order.query.limit(2).offset(1).all()
     rowo=[]
     for o in ordd:
         rowo.append({
@@ -194,7 +193,15 @@ def allorder():
     return jsonify({
         "order":rowo
     })
-
+@v1_orders.route("/deleteuser")
+def deleteuser():
+    if "user_id" not in session:
+        flash("first login than delete")
+        return  redirect("/login")
+    id=session["user_id"]
+    user=User.query.get(id)
+    return render_template("delete_user.html",user=user)
+    
 @v1_orders.route("/delete_user/<int:id>",methods=["DELETE","GET"])
 def delete_user(id):
     if "user_id" not in session:
@@ -205,7 +212,7 @@ def delete_user(id):
     db.session.delete(delete_us)
     db.session.commit()
     flash(f"user delete  id:{id} successfull")
-    return redirect("/login")
+    return redirect("/signin")
 
 @v1_orders.route("/delete_order/<int:id>",methods=["POST","GET"])
 def delete_order(id):
@@ -220,43 +227,74 @@ def delete_order(id):
     flash("your order is remove")
     return redirect("/addorder")
 
-@v1_orders.route("delete_bank/<int:id>",methods=["DELETE","GET"])
+@v1_orders.route("/deletebank")
+def delete():
+    if "user_id" not in session:
+        flash("first login then delete bank")
+        return redirect("/login")
+    id=session["user_id"]
+    user=Balance.query.filter_by(user_bal=id).first()
+    if not user:
+        flash("first add account")
+        return redirect("/balance")
+    return render_template("delete_bank.html",user=user)
+        
+    
+    
+
+@v1_orders.route("/delete-bank/<int:id>",methods=["DELETE","GET"])
 def delete_bank(id):
     if "user_id" not in session:
         return redirect("/login")
     if session["user_id"] != id:
-        flash("your only delete her account")
         return redirect(url_for("v1_orders.delete_bank",id=session["user_id"]))
-    balanc=Balance.Query.get(id)
+    balanc=Balance.query.filter_by(user_bal=id).first()
     db.session.delete(balanc)
     db.session.commit()
-    flash("user bank account deleted successfully")
+    flash("your bank account deleted successfully")
     return redirect("/balance")
     
-@v1_orders.route("/make-admin",methods=["POST","GET"])
+@v1_orders.route("/make-admin",methods=["POST"])
 def make_admin():
+    if "user_id" not in session:
+        return redirect("/login")
     if session["user_role"]!="admin":
-        flash("only admin can make admin")
-        return
-    if request.method=="POST":
-        email=request.form.get("email")
-        user=User.query.filter_by(email=email).first()
-        if user:
-            user.role="admin"
-            db.session.commit()
-            flash("user role update successfull")
-            return redirect("/addorder")
-        flash("email id is not correct please put correct id")
-        return redirect(url_for("v1_orders.make_admin"))
-    return render_template("admin.html")
-        
+        return jsonify({"msg":"only admin make admin"})
+    email=request.form.get("email")
+    user=User.query.filter_by(email=email).first()
+    if user:
+        user.role="admin"
+        db.session.commit()
+        return jsonify({"msg":f"{user.name} make admin"})
+    flash("put correct user email")
+    return render_template("admin.html")    
 @v1_orders.route("/settings")
 def settings():
     if "user_id" not in session:
-        flash("your id not first login then settings")
+        flash("first login then settings")
         return redirect("/login")
     id=session["user_id"]
     user = User.query.get(id)
     return render_template("settings.html", user=user)  
-            
+
+@v1_orders.route("/dashboard")
+def dashboard():
+    if "user_id" not in session:
+        return redirect("/login")
+    id=session["user_id"]
+    user=User.query.filter_by(id=id).first()
+    if not user.orders:
+        return jsonify({"msg":"empty not any orders "})
+    row=[]
+    for i in user.orders:
+        row.append({
+            "product":i.product,
+            "amount":i.amount,
+            "order_id":i.id
+        })  
+    return jsonify({
+        "order":row,
+        "user_name":user.name,
+        "user_id":i.user_id
+    })     
         

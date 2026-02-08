@@ -2,11 +2,37 @@
 {% block content %}
 <div class="glash-div">
 <form action="/api/v1/update_user/{{user.id}}" method="post">
-    <input class="glash-input" type="name" name="name" values="{{user.name}}" placeholder="name" required><br><br>
-    <input class="glash-input" type="password" name="password" values="{{user.password}}" placeholder="password"><br><br>
-    <input class="glash-input" type="number" name="mobile" values="{{user.mobile}}"required><br><br>
-    <input class="glash-input" type="email" name="email" values="{{user.email}}" required><br><br>
+    <input class="glash-input" type="name" name="name" values="{{user.name}}" 
+    pattern="[A-Z][a-zA-Z]*"
+title="Name must start with a capital letter"
+     placeholder="name" required><br><br>
+    <input class="glash-input" type="password" name="password" values="{{user.password}}" 
+  pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
+    title="Password must be at least 8 characters and contain letters and numbers"
+placeholder="password"><br><br>
+    <input class="glash-input" type="number" name="mobile" values="{{user.mobile}}"
+    pattern="[0-9]{10}"
+title="Mobile number must be 10 digits" 
+ placeholder="mobile" required><br><br>
+    <input class="glash-input" type="email" name="email" values="{{user.email}}" placeholder="email" required><br><br>
     <button class="glash-btn" >Update-user</button>
 </form>
 </div>
 {% endblock %}
+<script>
+function validateForm() {
+    const password = document.querySelector('input[name="password"]').value;
+
+    // Password rules:
+    // at least 8 chars, 1 letter, 1 number
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+        alert(
+          "Password must be at least 8 characters and contain both letters and numbers"
+        );
+        return false;
+    }
+    return true;
+}
+</script>

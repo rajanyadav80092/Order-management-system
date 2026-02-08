@@ -265,7 +265,7 @@ def delete_bank(id):
 @v2_orders.route("/alluser")
 @admin_required
 def alluser():
-    user=User.query.all()
+    user=User.query.limit(10).offset(20).all()
     row=[]
     if not user:
         return jsonify({"msg":"empty file"})

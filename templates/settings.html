@@ -8,7 +8,10 @@
     <a class="setting"  href="{{url_for('v2_update.update_user',id=user.id)}}">Update-v2_User</a><br>
     <a class="setting" href="{{url_for('v2_update.update_balance',id=user.id)}}">Update-v2-balance</a><br>
     <a class="setting" href="{{url_for('v2_auth.logout')}}">Logout</a><br>
-    <a class="setting" href="{{url_for('v2_orders.delete_user',id=user.id)}}">Delete-User</a>
+    <a class="setting" href="{{url_for('v1_orders.delete_user',id=user.id)}}">Delete-user</a><br>
+    <a class="setting" href="{{url_for('v1_orders.delete')}}">Bank-Delete</a><br>
+    <a class="setting" href="{{url_for('v1_orders.dashboard')}}">Dashboard</a><br><br>
+    <a class="setting" href="{{url_for('v1_orders.userall')}}">All-User</a><br><br>
     </ul>
 </div>
 {% endblock %}

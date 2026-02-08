@@ -1,8 +1,7 @@
 {% extends 'home.html' %}
 {% block content %}
 <div class="glash-div">
-<form action="/api/v1/delete_user/{{user.id}}" method="post">
-    <input class="glash-input" type="email" name="email" values="{{user.email}}" placeholder="enter your old email" required><br>
+<form action="/api/v1/delete_user/{{user.id}}" method="delete">
     <button class="glash-btn" type="submit">Delete-user</button>
 </form>
 </div>

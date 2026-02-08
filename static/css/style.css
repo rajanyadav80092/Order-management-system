@@ -9,6 +9,10 @@ body{
 
 }
 
+p{
+    color:white;
+    font-size: 17px;
+}
 
 .nav-class{
     height:100px;
@@ -86,16 +90,18 @@ h2:hover{
 .settingdiv{
     background:rgb(239, 235, 235);
     height: 200px;
-    width:250px;
-    position: absolute;
-    top: 60px;
+    width:200px;
+    position: fixed;
+    top: 100px;
+    right:10px;
     border-radius: 13px;
     border:none;
-    
+    flex-direction: column-reverse;  /*🔥 MAGIC */
+    overflow-y: auto;
 
 }
 .setting{
-    font-size: 20px;
+    font-size: 15px;
     text-decoration: none;
     color:black;
 

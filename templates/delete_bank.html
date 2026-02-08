@@ -1,0 +1,8 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="glash-div">
+    <form action="/api/v1/delete-bank/{{user.id}}",method="post">
+        <p>If you want delete her bank account</p><br>
+        <button class="glash-btn" >Submit</button>
+</div>
+{% endblock %}

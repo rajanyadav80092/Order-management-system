@@ -2,6 +2,7 @@ from flask import Flask,redirect,flash,Blueprint,session,url_for,request,render_
 from models import User,Balance
 from extensions import db
 from config import Config
+from werkzeug.security import generate_password_hash,check_password_hash
 
 v1_update=Blueprint("v1_update",__name__)
 
@@ -35,10 +36,10 @@ def update_user(id):
         return redirect(url_for("v1_update.update_user",id=session["user_id"]))
     user=User.query.get(id)
     if request.method=="POST":
-        user.name=request.query.get("name")
-        user.email=request.query.get("email")
+        user.name=request.form.get("name")
+        user.email=request.form.get("email")
         user.mobile=request.form.get("mobile")
-        user.password=request.form.get("password")
+        user.password=generate_password_hash(request.form.get("password"))
         db.session.commit()
         flash("user update successfully")
         return redirect("/addorder")

@@ -1,0 +1,9 @@
+{% extends 'home.html'%}
+{% block content %}
+<div class="glash-div">
+    <form action="/api/v1/checkotp" method="post">
+        <input class="glash-input" type="number" name="otp" placeholder="enter otp" required><br><br>
+        <button class="glash-btn" >Submit</button>
+    </form>
+</div>
+{% endblock %}

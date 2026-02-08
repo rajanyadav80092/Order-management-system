@@ -8,7 +8,7 @@ from sqlalchemy import or_
 
 v2_auth=Blueprint("v2_auth",__name__)
 
-@v2_auth.route("/signin",methods=["POST","GET"])
+@v2_auth.route("/signin",methods=["POST"])
 def signin_ui():
     if request.method=="POST":
         name=request.form.get("name")
@@ -17,6 +17,15 @@ def signin_ui():
         password=request.form.get("password")
         
         hashed=generate_password_hash(password)
+        if len(name)<3 :
+            flash("name albhabet length minimum 5")
+            return redirect("/signin")
+        if len(password)<3:
+            flash("password minimum 4 digit")
+            return redirect("/signin")
+        if len(mobile)<10:
+            flash("mobile number 10 digit")
+            return redirect("/signin")
         user=User(name=name,email=email,password=hashed,mobile=mobile)
         db.session.add(user)
         db.session.commit()
@@ -24,7 +33,7 @@ def signin_ui():
         return redirect("/login")
     return render_template("signin.html")
 
-@v2_auth.route("/login",methods=["POST","GET"])
+@v2_auth.route("/login",methods=["POST"])
 def login_ui():
     if request.method=="POST":
         identifier=request.form.get("identifier")
@@ -109,4 +118,8 @@ def logout():
     responses.delete_cookie("access_token_cookie")
     return responses
 
-
+@v2_auth.route("/user/me")
+@jwt_required(locations=["cookies"])
+def my_profile():
+    user_id=int(get_jwt_identity())
+    return jsonify({"id":user_id})
