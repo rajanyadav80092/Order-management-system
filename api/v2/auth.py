@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from extensions import db
 from models import User
 from sqlalchemy import or_
+from redis import Redis
+
 
 v2_auth=Blueprint("v2_auth",__name__)
 

@@ -40,8 +40,8 @@ def is_user_blocked(user_id):
 
 
  
-REQUEST_LIMIT = 20
-WINDOW_SIZE = 30
+REQUEST_LIMIT = 2
+WINDOW_SIZE = 3
 
 user_requests = {}  # user_id -> deque
 def is_rate_limited(user_id):
@@ -58,7 +58,6 @@ def is_rate_limited(user_id):
     # maintain fixed window size
     if len(q) > WINDOW_SIZE:
         q.popleft()
-
     # count requests in window
     if len(q) > REQUEST_LIMIT:
         return True
@@ -144,7 +143,7 @@ def login_ui():
         return redirect("/login")
 
     # ✅ FINAL SUCCESS
-    print({"ip addresh":current_redis})
+    print({"ip addresh": ip})
     session["user_id"] = user.id
     session["user_role"] = user.role
     flash("Login successful")
@@ -201,11 +200,12 @@ def check_otp():
     if saved_otp is None:
         return jsonify({"msg":"time limit is over key is expire"}),400
     if saved_otp==otp:
+        current_redis.delete(f"otp :{user.mobile}")
         flash("correct otp")
-        return render_template("change_password.html")
+        return redirect("/change-password")
     return jsonify({"msg":"incorrect otp"})
     
-@v1_auth.route("/change-password",methods=["POST"])
+@v1_auth.route("/change-password",methods=["POST","GET"])
 @rate_limit_middleware
 def change_password():
     if "reset_user_id" not in session:
@@ -219,5 +219,8 @@ def change_password():
         return render_template("change_password.html",user=user)
     user.password=generate_password_hash(new_pass)
     db.session.commit()
+    session.pop("resest_user_id",None)
+    session["user_id"]=user.id
+    session["user_role"]=user.role
     flash("you shoping again order website")    
     return render_template("add_order.html")
