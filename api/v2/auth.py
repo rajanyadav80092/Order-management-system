@@ -5,7 +5,14 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from extensions import db
 from models import User
 from sqlalchemy import or_
-from redis import Redis
+import redis
+
+current_redis=redis.Redis(
+    host="localhost",
+    port=6379,
+    db=0,
+    decode_response=True
+)
 
 
 v2_auth=Blueprint("v2_auth",__name__)
@@ -52,6 +59,7 @@ def login_ui():
                 identity=str(user.id),
                 additional_claims={"role":user.role}
             )
+            current_redis.setex(str(user.id),300,json.loads[""])
             refresh_token=create_refresh_token(
                 identity=str(user.id),
                 additional_claims={"role":user.role}
