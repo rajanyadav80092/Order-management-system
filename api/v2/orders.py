@@ -7,6 +7,8 @@ from flask_jwt_extended import get_jwt_identity,jwt_required,get_jwt
 import redis
 import time
 from functools import wraps
+from flask_wtf import CSRFProtect
+
 
 v2_orders=Blueprint("v2_orders",__name__)
 
@@ -85,6 +87,7 @@ def add4_balance():
 @v2_orders.route("/add-order",methods=["POST","GET"])
 @user_required
 def add_order():
+    print("start")
     current_user_id=int(get_jwt_identity())
     if request.method=="POST":
         product=request.form.get("product")
@@ -106,7 +109,6 @@ def add_order():
             bal.balance-=amount
             order=Order(amount=amount,product=product,user_id=current_user_id)
             db.session.add(order)
-            db.session.add(bal)
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
