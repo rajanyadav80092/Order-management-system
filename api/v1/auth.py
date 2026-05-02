@@ -89,6 +89,7 @@ def signin_ui():
         mobile=request.form.get("mobile")
         password=request.form.get("password")
         email=request.form.get("email")
+        age=request.form.get("age")
         is_first_user=User.query.count()==0
         if len(name)<3:
             flash ("Name is minimum 5 alphabate")
@@ -100,7 +101,7 @@ def signin_ui():
             flash("mobile number minimum 10 ")
             return redirect("/signin")
         hashed=generate_password_hash(password)
-        user=User(name=name,email=email,password=hashed,mobile=mobile,role="admin" if is_first_user else "user")
+        user=User(name=name,email=email,password=hashed,mobile=mobile,role="admin" if is_first_user else "user",age=age)
         db.session.add(user)
         db.session.commit()
         print({"ip":request.remote_addr})

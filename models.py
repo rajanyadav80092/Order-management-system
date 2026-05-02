@@ -1,10 +1,11 @@
-from extensions import db
+from extensions import db,migrate
 
 class User(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100),nullable=False)
     email=db.Column(db.String(200),unique=True,nullable=False)
     password=db.Column(db.String(200),nullable=False)
+    age=db.Column(db.String(10),default="0")
     mobile=db.Column(db.Integer,nullable=False)
     role=db.Column(db.String(200),default="user",nullable=False)
     orders=db.relationship("Order",backref="user",lazy=True,cascade="all,delete-orphan")

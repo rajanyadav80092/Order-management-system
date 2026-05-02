@@ -1,8 +1,9 @@
 from flask import Flask,render_template,redirect,session
 from config import Config
-from extensions import db,jwt
+from extensions import db,jwt,migrate
 from models import User
 from flask_wtf import CSRFProtect
+
 
 from api.v1.auth import v1_auth
 from api.v1.orders import v1_orders
@@ -14,6 +15,8 @@ from api.v2.update import v2_update
 app=Flask(__name__)
 
 csrf = CSRFProtect()
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+
 
 app.config.from_object(Config)
 app.config.update(
@@ -35,6 +38,7 @@ app.config["JWT_ACCESS_COOKIE_NAME"]="access_token_cookie"
 
 
 db.init_app(app)
+migrate.init_app(app, db)
 jwt.init_app(app)
 
 app.register_blueprint(v1_auth,url_prefix="/api/v1")
@@ -78,7 +82,4 @@ def forget():
     return render_template("forget.html")
 
 if __name__== ("__main__"):
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
-
+    app.run(debug=False)
