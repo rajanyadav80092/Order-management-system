@@ -29,12 +29,12 @@ app.config.update(
 
 
 
-app.config["JWT_TOKEN_LOCATION"]=["cookies"]
-app.config["JWT_COOKIE_CSRF_PROTECT"]=True
-app.config["JWT_COOKIE_SECURE"] = True
-app.config["JWT_COOKIE_HTTPONLY"] = True
-app.config["JWT_REFRESH_COOKIE_NAME"]="refresh_token_cookie"
-app.config["JWT_ACCESS_COOKIE_NAME"]="access_token_cookie"
+# app.config["JWT_TOKEN_LOCATION"]=["cookies"]
+# app.config["JWT_COOKIE_CSRF_PROTECT"]=True
+# app.config["JWT_COOKIE_SECURE"] = True
+# app.config["JWT_COOKIE_HTTPONLY"] = True
+# app.config["JWT_REFRESH_COOKIE_NAME"]="refresh_token_cookie"
+# app.config["JWT_ACCESS_COOKIE_NAME"]="access_token_cookie"
 
 
 db.init_app(app)
@@ -49,9 +49,9 @@ app.register_blueprint(v2_orders,url_prefix="/api/v2")
 app.register_blueprint(v2_update,url_prefix="/api/v2")
 
 
-@jwt.expired_token_loader
-def expired_token_callback(jwt_header,jwt_payload):
-    return redirect("/api/v2/refresh")
+# @jwt.expired_token_loader
+# def expired_token_callback(jwt_header,jwt_payload):
+#     return redirect("/api/v2/refresh")
 
 @app.route("/")
 def home():

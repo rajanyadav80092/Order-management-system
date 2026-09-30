@@ -90,6 +90,9 @@ def signin_ui():
         password=request.form.get("password")
         email=request.form.get("email")
         age=request.form.get("age")
+        if User.query.filter(User.email==email).first():
+            flash("Use anather email")
+            return redirect("/signin")
         is_first_user=User.query.count()==0
         if len(name)<3:
             flash ("Name is minimum 5 alphabate")
@@ -106,7 +109,9 @@ def signin_ui():
         db.session.commit()
         print({"ip":request.remote_addr})
         flash("you are sign-in successfull")
-        return render_template("login.html")
+        session["user_id"] = user.id
+        session["user_role"] = user.role
+        return redirect("/addorder")
     return render_template("signin.html")
 
 @v1_auth.route("/login", methods=["POST"])
