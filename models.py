@@ -10,6 +10,7 @@ class User(db.Model):
     role=db.Column(db.String(200),default="user",nullable=False)
     orders=db.relationship("Order",backref="user",lazy=True,cascade="all,delete-orphan")
     balance=db.relationship("Balance",backref="user",lazy=True,cascade="all,delete-orphan")
+    cache=db.relationship("Cachedata",backref="user",lazy=True,cascade="all,delete-orphan")
 
 class Order(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -31,3 +32,9 @@ class PasswordReset(db.Model):
     user_id=db.Column(db.Integer,db.ForeignKey("user.id"),nullable=False)
     token=db.Column(db.String(200),unique=True,nullable=False)
     expires_at=db.Column(db.DateTime,nullable=False)
+
+class Cachedata(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    amount=db.Column(db.Integer,nullable=False)
+    product=db.Column(db.String(200),nullable=False)
+    user_id = db.Column(db.Integer,db.ForeignKey("user.id"),nullable=False)
