@@ -1,0 +1,10 @@
+{% extends 'home.html'%}
+{% block content %}
+<div class="glash-div">
+<form action="/api/v1/savecache" method="POST">
+    <input class="glash-input" type="number" name="amount" placeholder="Amount" required><br>
+    <input class="glash-input" type="text" name="product" placeholder="Clothes" required><br>
+    <button class="glash-btn" type="submit">Submit</button>
+</form>
+</div>
+{% endblock %}
