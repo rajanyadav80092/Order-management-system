@@ -115,7 +115,7 @@ def signin_ui():
     return render_template("signin.html")
 
 @v1_auth.route("/login", methods=["POST"])
-@rate_limit_middleware
+# @rate_limit_middleware
 def login_ui():
     identifier = request.form.get("identifier")
     password = request.form.get("password")
@@ -128,26 +128,28 @@ def login_ui():
             User.mobile == identifier
         )
     ).first()
-
+    
     if not user:
         flash("user not found")
         return redirect("/login")
+    
     
     if user and not check_password_hash(user.password,password):
         flash("incorrect password")
         return render_template("login.html")
 
     if is_user_blocked(user.id):
-        flash("Account temporarily blocked")
-        return redirect("/login")
-
-
+            flash("Account temporarily blocked")
+            return redirect("/login")
+    
+    
     # ✅ Successful password
     if check_login_ip(user.id, ip):
         block_user(user.id)
         flash("Suspicious login detected. Account blocked for 10 minutes.")
         return redirect("/login")
-
+    
+    
     # ✅ FINAL SUCCESS
     print({"ip addresh": ip})
     session["user_id"] = user.id
@@ -230,3 +232,32 @@ def change_password():
     session["user_role"]=user.role
     flash("you shoping again order website")    
     return render_template("add_order.html")
+
+@v1_auth.route("/alluser",methods=["GET"])
+def alluser():
+    users=User.query.filter_by().all()
+    return jsonify([
+        {
+        "user_id":user.id,
+        "user_name":user.name,
+        "user_role":user.role,
+        "user_email":user.email,
+        "user_mobile":user.mobile,
+        "user password":user.password,
+    } for user in users
+        ])
+
+@v1_auth.route("/mydata",methods=["GET"])
+def mydata():
+    if "user_id" not in session:
+        flash("you are not login")
+        return render_template("/login.html")
+    user=User.query.filter_by(id=session["user_id"]).first()
+    
+    return jsonify({
+        "id":user.id,
+        "name":user.name,
+        "mobile":user.mobile,
+        "email":user.email
+    })
+
