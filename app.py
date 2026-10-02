@@ -7,6 +7,7 @@ from flask_wtf import CSRFProtect
 
 from api.v1.auth import v1_auth
 from api.v1.orders import v1_orders
+from api.v1.cache import v1_cache
 from api.v1.update import v1_update
 from api.v2.auth import v2_auth
 from api.v2.orders import v2_orders
@@ -44,6 +45,7 @@ jwt.init_app(app)
 app.register_blueprint(v1_auth,url_prefix="/api/v1")
 app.register_blueprint(v1_orders,url_prefix="/api/v1")
 app.register_blueprint(v1_update,url_prefix="/api/v1")
+app.register_blueprint(v1_cache,url_prefix="/api/v1")
 app.register_blueprint(v2_auth,url_prefix="/api/v2")
 app.register_blueprint(v2_orders,url_prefix="/api/v2")
 app.register_blueprint(v2_update,url_prefix="/api/v2")
@@ -53,6 +55,8 @@ app.register_blueprint(v2_update,url_prefix="/api/v2")
 # def expired_token_callback(jwt_header,jwt_payload):
 #     return redirect("/api/v2/refresh")
 
+
+    
 @app.route("/")
 def home():
     return render_template("home.html")
