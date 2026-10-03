@@ -91,9 +91,9 @@ def signin_ui():
         email=request.form.get("email")
         age=request.form.get("age")
         if User.query.filter(User.email==email).first():
-            flash("Use anather email")
+            flash("Use un-other email")
             return redirect("/signin")
-        is_first_user=User.query.count()==0
+        is_first_user=User.query.count()==10
         if len(name)<3:
             flash ("Name is minimum 5 alphabate")
             return redirect("/signin")
