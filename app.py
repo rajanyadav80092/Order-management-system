@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,session
+from flask import Flask,render_template,redirect,session,request
 from config import Config
 from extensions import db,jwt,migrate
 from models import User
@@ -65,7 +65,11 @@ def home():
 def signin():
     return render_template("signin.html")
 
-
+@app.route('/search')
+def search():
+    search_word = request.args.get('query')  # 'python' मिलेगा
+    limit_value = request.args.get('limit')   # '10' मिलेगा
+    return f"Searching for {search_word} with limit {limit_value}"
 @app.route("/login")
 def login():
     return render_template("login.html")
